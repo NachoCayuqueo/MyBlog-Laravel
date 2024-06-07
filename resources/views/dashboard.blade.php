@@ -62,13 +62,25 @@
         <div class="p-4 sm:ml-64">
             <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                 <div id="mis-categorias" class="content-section">
-                    <x-categories-table :categories="$categories" />
+                    @if (count($categories) > 0)
+                        <x-categories-table :categories="$categories" />
+                    @else
+                        <x-text-info :text="__('No se encontraron categorias cargadas')" />
+                    @endif
                 </div>
                 <div id="mis-posteos" class="content-section hidden">
-                    <x-posts-table :posts="$posts" />
+                    @if (count($posts) > 0)
+                        <x-posts-table :posts="$posts" />
+                    @else
+                        <x-text-info :text="__('No se encontraron post cargados')" />
+                    @endif
                 </div>
                 <div id="mis-comentarios" class="content-section hidden">
-                    <x-comments-table />
+                    @if (count($posts) > 0)
+                        <x-comments-table :comments="$comments" />
+                    @else
+                        <x-text-info :text="__('No se encontraron comentarios cargados')" />
+                    @endif
                 </div>
             </div>
         </div>
