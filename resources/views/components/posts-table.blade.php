@@ -37,14 +37,20 @@
                         {{ $post->content }}
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                        {{ $post->habilitated }}
+                        <label class="inline-flex items-center mb-5 cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" data-id="{{ $post->id }}"
+                                {{ $post->habilitated ? 'checked' : '' }}>
+                            <div
+                                class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+                            </div>
+                        </label>
                     </td>
                     <td class="px-6 py-4 font-semibold text-gray-900 dark:text-white">
                         {{ $post->created_at->format('d-m-Y') }}
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex space-x-2">
-                            <a href="{{ route('categories.edit', $post->id) }}">
+                            <a href="{{ route('posts.edit', $post->id) }}">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     strokeWidth={1.5} stroke="currentColor"
                                     class="size-6 font-medium text-blue-600  hover:underline">
@@ -52,7 +58,7 @@
                                         d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                 </svg>
                             </a>
-                            <button type="button" onclick="confirmDelete('{{ $post->id }}')">
+                            <button type="button" onclick="confirmDeletePost('{{ $post->id }}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     strokeWidth={1.5} stroke="currentColor"
                                     class="size-6 font-medium text-red-600  hover:underline">
@@ -66,6 +72,77 @@
             @endforeach
         </tbody>
     </table>
-
-
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('input[type="checkbox"]').change(function() {
+            const postId = $(this).data('id');
+            const habilitated = $(this).is(':checked') ? 1 : 0;
+            $.ajax({
+                url: '/posts/' + postId + '/toggle-habilitated',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    habilitated
+                },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: "Exito",
+                            text: response.message,
+                            icon: "success"
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        title: "Error",
+                        text: 'Error al actualizar el estado del post',
+                        icon: "error"
+                    });
+                }
+            });
+        });
+    });
+
+    function confirmDeletePost(id) {
+        Swal.fire({
+            title: "¿Estas seguro de eliminar el post?",
+            text: "¡No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: `/posts/${id}`,
+                    method: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: "Post Eliminado!",
+                            text: response.message,
+                            icon: "success"
+                        }).then(() => location.reload());
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: "Exito",
+                            text: 'Error al eliminar el post',
+                            icon: "error"
+                        });
+                    }
+                });
+
+
+            }
+        });
+    }
+</script>
