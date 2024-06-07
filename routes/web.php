@@ -20,14 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('categories', CategoryController::class);
-    // Route::get('/my-categories', [CategoryController::class, 'myCategories'])->name('categories.myCategories');
-    // web.php
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    // Route::get('/dashboard', [CategoryController::class, 'myCategories'])->name('dashboard');
-
-
+    Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
+    Route::post('/posts/{id}/toggle-habilitated', [PostController::class, 'toggleHabilitated'])->name('posts.toggleHabilitated');
     Route::resource('comments', CommentController::class);
 });
 
