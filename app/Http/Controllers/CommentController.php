@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -11,7 +14,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all();
+        return view('comments/index', compact('comments'));
     }
 
     /**
@@ -43,7 +47,8 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view('comments.partials.edit', compact('comment'));
     }
 
     /**
@@ -51,7 +56,14 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'content' => 'required|string',
+        ]);
+
+        $comment = Comment::findOrFail($id);
+        $comment->update($request->all());
+
+        return redirect()->route('dashboard');
     }
 
     /**
@@ -59,6 +71,16 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+        return response()->json(['success' => true, 'message' => 'El comentario se elimino correctamente']);
+    }
+
+    public function myComments()
+    {
+        $user = Auth::user();
+        $comments = Comment::where('user_id', $user->id)->get();
+        $comments->load('post');
+        return view('dashboard', compact('comments'));
     }
 }
