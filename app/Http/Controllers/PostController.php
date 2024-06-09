@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,16 +15,19 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        // $posts = Post::all();
+        $posts = Post::withCount('comments')->get();
         return view('posts/index', compact('posts'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $categoryId = $request->input('category_id');
+        return view('posts.partials.create', compact('categoryId'));
+        //return view('posts.partials.create');
     }
 
     /**
@@ -31,7 +35,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id();
+
+        $request->validate([
+            'title' => 'required|string',
+            'poster' => 'required|image',
+            'content' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+        ]);
+        $request->merge(['user_id' => $userId]);
+
+        $post = Post::create($request->all());
+
+        if ($request->hasFile('poster')) {
+            $imageUpload = $request->file('poster')->store('categories');
+            $imageUpload = explode('/', $imageUpload)[1];
+            $post->poster = $imageUpload;
+            $post->save();
+        }
+        return redirect()->route('categories.show', $request->category_id);
     }
 
     /**
@@ -39,7 +61,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::with('user')->findOrFail($id);
+        $comments = $post->comments()->with('user')->get();
+        return view('posts.show', compact('post', 'comments'));
     }
 
     /**
@@ -88,14 +112,6 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
         $post->delete();
         return response()->json(['success' => true, 'message' => 'El post se elimino correctamente']);
-    }
-
-
-    public function myPosts()
-    {
-        $user = Auth::user();
-        $posts = Post::where('user_id', $user->id)->get();
-        return view('dashboard', compact('posts'));
     }
 
     public function toggleHabilitated(Request $request, $id)
