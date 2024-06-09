@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -23,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('categories.partials.create');
     }
 
     /**
@@ -31,7 +32,24 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id();
+
+        $request->validate([
+            'name' => 'required|string',
+            'poster' => 'required|image',
+            'content' => 'required|string',
+        ]);
+        $request->merge(['user_id' => $userId]);
+
+        $category = Category::create($request->all());
+
+        if ($request->hasFile('poster')) {
+            $imageUpload = $request->file('poster')->store('categories');
+            $imageUpload = explode('/', $imageUpload)[1];
+            $category->poster = $imageUpload;
+            $category->save();
+        }
+        return redirect()->route('categories.index');
     }
 
     /**
@@ -39,7 +57,12 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = Category::findOrFail($id);
+        $posts = $category->posts()->withCount('comments')->get();
+        // $posts = $category->posts()->get();
+        // $posts = Post::withCount('comments')->get();
+
+        return view('categories.show', compact('category', 'posts'));
     }
 
     /**
@@ -87,13 +110,5 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->delete();
         return response()->json(['success' => true, 'message' => 'La categoria se elimino correctamente']);
-    }
-
-    public function myCategories()
-    {
-        $user = Auth::user();
-        $categories = Category::where('user_id', $user->id)->get();
-
-        return view('dashboard', compact('categories'));
     }
 }
