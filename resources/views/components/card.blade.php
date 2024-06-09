@@ -8,7 +8,8 @@
             <h1 class="text-center text-2xl font-semibold mb-3">{{ $title }}</h1>
 
             <div class="flex items-center justify-end">
-                <a href="#" class="text-indigo-300 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer">
+                <a href="{{ route('categories.show', $id) }}"
+                    class="text-indigo-300 inline-flex items-center md:mb-2 lg:mb-0 cursor-pointer">
                     Ingresar
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                         stroke="currentColor" class="size-6 font-medium text-blue-600  hover:underline">
