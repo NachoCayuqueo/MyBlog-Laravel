@@ -70,7 +70,7 @@
                 </div>
                 <div id="mis-posteos" class="content-section hidden">
                     @if (count($posts) > 0)
-                        <x-posts-table :posts="$posts" />
+                        <x-posts-table :posts="$posts" :show_buttons="true" />
                     @else
                         <x-text-info :text="__('No se encontraron post cargados')" />
                     @endif
