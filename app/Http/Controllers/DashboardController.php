@@ -17,7 +17,8 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         $categories = Category::where('user_id', $user->id)->get();
-        $posts = Post::where('user_id', $user->id)->get();
+        $posts = Post::withCount('comments')->where('user_id', $user->id)->get();
+        // $posts = Post::where('user_id', $user->id)->get();
         $comments = Comment::where('user_id', $user->id)->get();
 
         return view('dashboard', compact('categories', 'posts', 'comments'));
