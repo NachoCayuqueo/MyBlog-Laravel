@@ -21,9 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::resource('categories', CategoryController::class);
     Route::resource('posts', PostController::class);
     Route::post('/posts/{id}/toggle-habilitated', [PostController::class, 'toggleHabilitated'])->name('posts.toggleHabilitated');
+
     Route::resource('comments', CommentController::class);
 });
 
