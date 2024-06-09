@@ -31,7 +31,18 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id();
+        $request->validate([
+            'content' => 'required|string',
+            'post_id' => 'required|exists:posts,id',
+        ]);
+
+        $request->merge(['user_id' => $userId]);
+
+        $comment = Comment::create($request->all());
+        // debe redireccionar al apartado donde escribio el comentario
+        // return redirect()->route('categories.index');
+        return redirect()->route('posts.show', ['post' => $comment->post_id]);
     }
 
     /**
