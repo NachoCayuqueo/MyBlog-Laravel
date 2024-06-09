@@ -7,7 +7,11 @@
         </div>
     </x-slot>
 
-    <div class="grid grid-cols-3 gap-10 m-12">
-        <h1>Tabla con todos los post</h1>
+    <div class="p-4">
+        @if (count($posts) > 0)
+            <x-posts-table :posts="$posts" :show_buttons="false" />
+        @else
+            <x-text-info :text="__('No se encontraron posts cargados')" />
+        @endif
     </div>
 </x-app-layout>
