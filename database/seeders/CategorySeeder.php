@@ -19,22 +19,19 @@ class CategorySeeder extends Seeder
         if ($user) {
             $category = new Category();
             $category->user_id = $user->id;
-            $category->name = "Manga y Anime";
-            $category->slug = "manga_y_anime";
+            $category->name = "Anime";
             $category->poster = "Series_Anime_Decada.jpg";
             $category->save();
 
             $category = new Category();
             $category->user_id = $user->id;
             $category->name = "Deportes";
-            $category->slug = "deportes";
             $category->poster = "Deportes.jpg";
             $category->save();
 
             $category = new Category();
             $category->user_id = $user->id;
             $category->name = "Música";
-            $category->slug = "musica";
             $category->poster = "musica-arte.jpg";
             $category->save();
         }

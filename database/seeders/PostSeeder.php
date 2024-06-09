@@ -21,24 +21,59 @@ class PostSeeder extends Seeder
 
         $categories = Category::all();
 
-        foreach ([$emanuel, $lucas, $pablo] as $user) {
-            foreach ($categories as $category) {
+
+        foreach ($categories as $category) {
+            if ($category->name === 'Anime') {
                 Post::create([
-                    'user_id' => $user->id,
+                    'user_id' => $emanuel->id,
                     'category_id' => $category->id,
-                    'title' => 'Primer post de ' . $user->name . ' en ' . $category->name,
-                    'slug' => 'primer-post-de-' . strtolower($user->name) . '-en-' . strtolower($category->slug),
-                    'content' => 'Este es el primer post de ' . $user->name . ' en la categoría ' . $category->name . '.',
-                    'poster' => 'imagen_proceso.jpg',
+                    'title' => 'Dragon Ball Super',
+                    'content' => 'Do cillum ea aliquip labore labore veniam anim veniam in anim cupidatat cupidatat aute.',
+                    'poster' => 'dragon_ball_super.jpg',
                     'habilitated' => true
                 ]);
                 Post::create([
-                    'user_id' => $user->id,
+                    'user_id' => $lucas->id,
                     'category_id' => $category->id,
-                    'title' => 'Segundo post de ' . $user->name . ' en ' . $category->name,
-                    'slug' => 'segundo-post-de-' . strtolower($user->name) . '-en-' . strtolower($category->slug),
-                    'content' => 'Este es el segundo post de ' . $user->name . ' en la categoría ' . $category->name . '.',
-                    'poster' => 'imagen_proceso.jpg',
+                    'title' => 'Slam Dunk',
+                    'content' => 'Dolor adipisicing pariatur ipsum eiusmod eu nisi aute.',
+                    'poster' => 'slam_dunk.jpg',
+                    'habilitated' => true
+                ]);
+            }
+            if ($category->name === 'Deportes') {
+                Post::create([
+                    'user_id' => $pablo->id,
+                    'category_id' => $category->id,
+                    'title' => 'Futbol',
+                    'content' => 'Incididunt est reprehenderit laborum officia et.',
+                    'poster' => 'futbol.jpg',
+                    'habilitated' => true
+                ]);
+                Post::create([
+                    'user_id' => $emanuel->id,
+                    'category_id' => $category->id,
+                    'title' => 'Básquet',
+                    'content' => 'Dolor adipisicing pariatur ipsum eiusmod eu nisi aute.',
+                    'poster' => 'basquet.jpg',
+                    'habilitated' => true
+                ]);
+            }
+            if ($category->name === 'Música') {
+                Post::create([
+                    'user_id' => $lucas->id,
+                    'category_id' => $category->id,
+                    'title' => 'Blues',
+                    'content' => 'Do cillum ea aliquip labore labore veniam anim veniam in anim cupidatat cupidatat aute.',
+                    'poster' => 'blues.jpg',
+                    'habilitated' => true
+                ]);
+                Post::create([
+                    'user_id' => $pablo->id,
+                    'category_id' => $category->id,
+                    'title' => 'Reggae',
+                    'content' => 'Dolor adipisicing pariatur ipsum eiusmod eu nisi aute.',
+                    'poster' => 'reggae.jpg',
                     'habilitated' => true
                 ]);
             }
