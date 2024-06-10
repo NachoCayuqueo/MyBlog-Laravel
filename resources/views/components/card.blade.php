@@ -3,7 +3,7 @@
 <div class="flex flex-row">
     <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
         <img class="lg:h-62 md:h-48 w-full object-cover object-center" src={{ asset($image) }} alt="blog">
-        <div class="p-6 hover:bg-indigo-700 hover:text-white transition duration-300 ease-in">
+        <div class="p-6 text-indigo-500 hover:bg-indigo-700 hover:text-white transition duration-300 ease-in">
             <h2 class="text-base font-medium text-indigo-300 mb-1">{{ $creation_date }}</h2>
             <h1 class="text-center text-2xl font-semibold mb-3">{{ $title }}</h1>
 
