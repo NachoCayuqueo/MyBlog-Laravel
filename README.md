@@ -3,6 +3,7 @@
 <div style="text-align: center; margin-bottom:50px">
   <img src="public/images/My_Blog_logo.png" alt="Logo_Doggy_Friends">
 </div>
+
 Bienvenidos a **My Blog**, un proyecto de blog desarrollado con Laravel. Este proyecto permite a los usuarios crear, editar y comentar publicaciones en un entorno amigable.
 
 ## Descripción
