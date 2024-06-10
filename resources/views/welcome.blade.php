@@ -51,7 +51,7 @@
 
                 <div class="text-[#27091B] flex flex-col  min-h-[100vh]">
                     <div class="mt-10">
-                        <h1 class="text-center text-4xl">Bienvenidos a nuestro blog</h1>
+                        <h1 class="text-center text-4xl">Bienvenidos a My Blog</h1>
                     </div>
 
                     <div class="mt-10">
@@ -62,40 +62,20 @@
                             expresarse y conectar con una comunidad vibrante y apasionada.</p>
                     </div>
 
-                    <div class="my-10">
+                    <div class="my-7">
                         <h1 class="mt-5 text-3xl text-center">¿Qué puedes hacer en My Blog?</h1>
                     </div>
-                    <div class="flex gap-5 p-5 justify-center">
-                        <div
-                            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Explorar
-                                Categorías</h5>
-                            <p class="font-normal text-gray-700 dark:text-gray-400">Sumérgete en una variedad de temas
-                                organizados en categorías. Encuentra contenido que te inspire y te interese.
-                            </p>
-                        </div>
-                        <div
-                            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Crear y
-                                Compartir</h5>
-                            <p class="font-normal text-gray-700 dark:text-gray-400"> ¿Tienes una idea genial? Publica
-                                tus propios posteos y comparte tus pensamientos, historias y conocimientos con el mundo.
-                            </p>
-                        </div>
-                        <div
-                            class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-
-                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Interactuar
-                                y Conectar</h5>
-                            <p class="font-normal text-gray-700 dark:text-gray-400">Comenta en los posteos de otros
-                                usuarios, inicia conversaciones y crea conexiones significativas con personas que
-                                comparten tus intereses.</p>
-                        </div>
-
+                    <div class="flex gap-5 p-5 justify-center ">
+                        <x-card-welcome :title="__('Explorar Categorías')" :content="__(
+                            'Sumérgete en una variedad de temas organizados en categorías. Encuentra contenido que te inspire y te interese.',
+                        )" />
+                        <x-card-welcome :title="__('Crear y Compartir')" :content="__(
+                            '¿Tienes una idea genial? Publica tus propios posteos y comparte tus pensamientos, historias y conocimientos con el mundo.',
+                        )" />
+                        <x-card-welcome :title="__('Interactuar y Conectar')" :content="__(
+                            'Comenta en los posteos de otros usuarios, inicia conversaciones y crea conexiones significativas con personas que comparten tus intereses.',
+                        )" />
                     </div>
-
                 </div>
                 <footer class="flex flex-col text-center text-sm text-black bg-black/30 backdrop-blur-md p-6">
                     &copy; MY BLOG Todos los derechos reservados, 2024
