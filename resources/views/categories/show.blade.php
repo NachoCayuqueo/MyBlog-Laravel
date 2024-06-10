@@ -17,7 +17,9 @@
     <div class="p-5">
         <div class="grid grid-cols-3 gap-10 m-12">
             @foreach ($posts as $post)
-                <x-post-card :post="$post" />
+                @if ($post->habilitated)
+                    <x-post-card :post="$post" />
+                @endif
             @endforeach
         </div>
     </div>
